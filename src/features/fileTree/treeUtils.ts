@@ -3,6 +3,31 @@ import type { FlattenedNode, TreeNode } from "../types";
 const buildPath = (parentPath: string | null, name: string): string =>
   parentPath ? `${parentPath}/${name}` : name;
 
+export const searchNodesByName = (
+  nodes: TreeNode[],
+  query: string,
+  parentPath: string | null = null
+): Array<{ path: string; node: TreeNode }> => {
+  const normalized = query.trim().toLowerCase();
+  if (!normalized) return [];
+
+  const results: Array<{ path: string; node: TreeNode }> = [];
+
+  for (const node of nodes) {
+    const currentPath = buildPath(parentPath, node.name);
+
+    if (node.name.toLowerCase().includes(normalized)) {
+      results.push({ path: currentPath, node });
+    }
+
+    if (node.type === "folder" && node.children.length > 0) {
+      results.push(...searchNodesByName(node.children, query, currentPath));
+    }
+  }
+
+  return results;
+};
+
 export const flattenTree = (
   nodes: TreeNode[],
   depth = 0,
