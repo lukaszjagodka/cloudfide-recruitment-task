@@ -17,3 +17,17 @@ export interface FolderNode extends BaseNode {
 }
 
 export type TreeNode = FileNode | FolderNode;
+
+export interface FlattenedNode {
+  id: string;
+  path: string;
+  name: string;
+  type: NodeType;
+  depth: number;
+  parentId: string | null;
+  position: number;
+  order: number;
+  hasChildren: boolean;
+  isOpen?: boolean;
+  size?: number;
+}
