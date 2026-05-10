@@ -1,4 +1,4 @@
-import type { FileNode, FolderNode, TreeNode } from "./types";
+import type { FileNode, FolderNode, TreeNode } from "../types";
 
 const isObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null;
@@ -24,11 +24,7 @@ const parseNode = (value: unknown, path = "root"): TreeNode => {
       throw new Error(`Invalid file "${name}" at ${path}: "size" must be >= 0`);
     }
 
-    const fileNode: FileNode = {
-      name,
-      type: "file",
-      size,
-    };
+    const fileNode: FileNode = { name, type: "file", size };
     return fileNode;
   }
 
@@ -49,6 +45,7 @@ const parseNode = (value: unknown, path = "root"): TreeNode => {
 
 export const parseTreeFromJson = (input: string): TreeNode => {
   let parsed: unknown;
+
   try {
     parsed = JSON.parse(input);
   } catch {

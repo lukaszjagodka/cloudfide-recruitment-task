@@ -1,5 +1,6 @@
 import type { ChangeEvent } from "react";
 import { useMemo, useState } from "react";
+import { parseTreeFromJson } from "../features/fileTree/parser";
 import { sampleInputJson } from "../features/fileTree/sampleInput.json";
 
 export default function HomePage() {
@@ -14,7 +15,7 @@ export default function HomePage() {
     setPreview("");
 
     try {
-      const parsed = JSON.parse(rawJson) as unknown;
+      const parsed = parseTreeFromJson(rawJson);
       console.log("Parsed JSON:", parsed);
       setPreview(JSON.stringify(parsed, null, 2));
     } catch {
