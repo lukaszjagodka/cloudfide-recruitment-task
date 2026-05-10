@@ -8,7 +8,6 @@ import { saveTreeToStorage } from "../features/fileTree/storage";
 export default function HomePage() {
   const [rawJson, setRawJson] = useState(sampleInputJson);
   const [error, setError] = useState<string>("");
-  const [preview, setPreview] = useState<string>("");
 
   const navigate = useNavigate();
 
@@ -16,12 +15,10 @@ export default function HomePage() {
 
   const handleLoad = () => {
     setError("");
-    setPreview("");
 
     try {
       const parsed = parseTreeFromJson(rawJson);
       saveTreeToStorage(parsed);
-      setPreview(JSON.stringify(parsed, null, 2));
       navigate("/tree");
     } catch {
       setError("Invalid JSON. Please fix input and try again.");
@@ -35,7 +32,6 @@ export default function HomePage() {
     const text = await file.text();
     setRawJson(text);
     setError("");
-    setPreview("");
   };
 
 return (
@@ -48,7 +44,7 @@ return (
         </p>
       </header>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6">
         <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
           <label htmlFor="json-input" className="mb-2 block text-sm font-medium">
             Input JSON
@@ -84,12 +80,6 @@ return (
           {error ? <p className="mt-3 text-sm font-medium text-red-600">{error}</p> : null}
         </div>
 
-        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-          <h2 className="mb-2 text-lg font-semibold text-slate-900">Parsed preview</h2>
-          <pre className="h-80 overflow-auto rounded-lg bg-slate-900 p-4 text-xs text-slate-100">
-            {preview || "No parsed data yet."}
-          </pre>
-        </div>
       </div>
     </div>
   </main>
