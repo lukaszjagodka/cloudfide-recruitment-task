@@ -36,6 +36,7 @@ npm run test:coverage
 
 ## Decyzje architektoniczne
 1) Model danych: tree jako source of truth
+
 Stan aplikacji przechowuje drzewo treeNode jako główny model domenowy.  
 Widok listy nie jest trzymany osobno w stanie, tylko wyliczany na bieżąco przez spłaszczenie drzewa do listy widocznych elementów (`flattenTree`).
 
