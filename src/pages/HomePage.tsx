@@ -1,12 +1,16 @@
 import type { ChangeEvent } from "react";
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { parseTreeFromJson } from "../features/fileTree/parser";
 import { sampleInputJson } from "../features/fileTree/sampleInput.json";
+import { saveTreeToStorage } from "../features/fileTree/storage";
 
 export default function HomePage() {
   const [rawJson, setRawJson] = useState(sampleInputJson);
   const [error, setError] = useState<string>("");
   const [preview, setPreview] = useState<string>("");
+
+  const navigate = useNavigate();
 
   const canSubmit = useMemo(() => rawJson.trim().length > 0, [rawJson]);
 
@@ -16,8 +20,9 @@ export default function HomePage() {
 
     try {
       const parsed = parseTreeFromJson(rawJson);
-      console.log("Parsed JSON:", parsed);
+      saveTreeToStorage(parsed);
       setPreview(JSON.stringify(parsed, null, 2));
+      navigate("/tree");
     } catch {
       setError("Invalid JSON. Please fix input and try again.");
     }
