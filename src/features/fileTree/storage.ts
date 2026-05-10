@@ -3,6 +3,14 @@ import type { TreeNode } from "../types";
 const TREE_KEY = "cloudfide.fileTree.data";
 const SEARCH_KEY = "cloudfide.fileTree.search";
 
+export const saveSearchQueryToStorage = (query: string): void => {
+  localStorage.setItem(SEARCH_KEY, query);
+};
+
+export const loadSearchQueryFromStorage = (): string => {
+  return localStorage.getItem(SEARCH_KEY) ?? "";
+};
+
 export const saveTreeToStorage = (tree: TreeNode): void => {
   localStorage.setItem(TREE_KEY, JSON.stringify(tree));
 };
